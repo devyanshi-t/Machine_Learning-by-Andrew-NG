@@ -15,6 +15,6 @@ Return a 5X5 indentity matrix<br/>
 <p align="center">
 <img src="./2.png"></br>
 
-## Multiple linear regression
+## Multi variable linear regression
 
 
