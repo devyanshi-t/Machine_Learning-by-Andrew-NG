@@ -61,14 +61,12 @@ plt.show()
 predictval = ([1,16.5,3]) * theta;
 
 
-
-
 # Normal EquationsX
 from numpy.linalg import inv
-a=np.array(X)
-part=np.dot(a.transpose(),a)
-part1 = np.dot(inv(part),a.transpose())
-final=np.dot(part1,y)
+p1=np.dot(X.transpose(),X)
+p2=inv(p1)
+p3=np.dot(p2,X.transpose())
+f=np.dot(p3,y)
 
-predictvalne = ([1,16.5,3]) * final;
+predictvalne = ([1,16.5,3]) * f;
 
