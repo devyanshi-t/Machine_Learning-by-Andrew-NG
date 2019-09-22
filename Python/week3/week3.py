@@ -34,9 +34,26 @@ def sigmoid(x):
     return 1 / (1 + np.exp(-x))
     
 print(sigmoid(0)) #0.5
-x = np.linspace(-np.pi, np.pi, 10)
+x = np.linspace(-np.pi, np.pi, 10) # checking if it works for vectors
 print(sigmoid(x))
 
+# adding the intercept term 
+m=len(y)
+import statsmodels.api as sm
+X=np.append(arr=np.ones((m,1)).astype(int),values=X,axis=1)
+theta = np.zeros((X.shape[1], 1))
+# x.theta
+def multtheta(x,theta):
+    return np.dot(x,theta)
+# calculating the sigmoid of the product
+def calcsigmoid(x,theta):
+    return sigmoid(multtheta(x,theta))
 #Cost function and gradient
+def computeCost(x,y,theta):
+    totalcost = -(1 / m) * np.sum(
+        y * np.log(calcsigmoid(x,theta)) + (1 - y) * np.log(
+            1 - calcsigmoid( x,theta)))
+    return totalcost
 
- 
+def calcgradient(x,y,theta):
+    
