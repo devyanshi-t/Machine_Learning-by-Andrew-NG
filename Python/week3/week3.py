@@ -42,7 +42,7 @@ m=len(y)
 import statsmodels.api as sm
 X=np.append(arr=np.ones((m,1)).astype(int),values=X,axis=1)
 y = y[:, np.newaxis]
-theta = np.zeros([X.shape[1], 1])
+theta = np.zeros([3, 1])
 # x.theta
 def multtheta(X,theta):
     return np.dot(X,theta)
@@ -50,29 +50,32 @@ def multtheta(X,theta):
 def calcsigmoid(X,theta):
     return sigmoid(multtheta(X,theta))
 #Cost function and gradient
-def computeCost(X,y,theta):
+def computeCost(theta,X,y):
     totalcost = -(1 / m) * np.sum(
         y * np.log(calcsigmoid(X,theta)) + (1 - y) * np.log(
             1 - calcsigmoid( X,theta)))
     return totalcost
 # setting alpha
 alpha=0.01
-def calcgradient(theta,X,y,alpha,step):
+step=400
+def calcgradient(theta,X,y):
     for i in range(step):
         t1=calcsigmoid(X,theta)
         t1=t1-y
         t2=np.dot(X.T,t1)
     return theta-(alpha*t2)/m
-theta=calcgradient(theta,X,y,alpha,1500)
+theta=calcgradient(theta,X,y)
 print(theta)
-J = computeCost(X, y, theta)
+J = computeCost( theta,X, y)
 print(J)  # 0.6931471805599454
 
-#  Learning parameters using fminunc (alternative in python)
 
 import scipy.optimize as op
-theta = op.fmin_cg(computeCost ,
-                 args=(X, y),x0=theta)
+t = op.fmin_tnc(func=computeCost ,x0=theta.flatten(),fprime=calcgradient,
+                 args=(X, y.flatten()))
+t_opti=t[0]
+J = computeCost( t_opti[:,np.newaxis],X, y)
+print(J)
 
                 
                    
