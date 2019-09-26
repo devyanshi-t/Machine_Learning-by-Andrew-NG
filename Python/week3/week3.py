@@ -30,30 +30,52 @@ plt.ylabel('exam 2 score')
 plt.show()
 
 # Warmup exercise: sigmoid function
-def sigmoid(x):
-    return 1 / (1 + np.exp(-x))
+def sigmoid(X):
+    return 1 / (1 + np.exp(-X))
     
 print(sigmoid(0)) #0.5
-x = np.linspace(-np.pi, np.pi, 10) # checking if it works for vectors
-print(sigmoid(x))
+temp = np.linspace(-np.pi, np.pi, 10) # checking if it works for vectors
+print(sigmoid(temp))
 
 # adding the intercept term 
 m=len(y)
 import statsmodels.api as sm
 X=np.append(arr=np.ones((m,1)).astype(int),values=X,axis=1)
-theta = np.zeros((X.shape[1], 1))
+y = y[:, np.newaxis]
+theta = np.zeros([X.shape[1], 1])
 # x.theta
-def multtheta(x,theta):
-    return np.dot(x,theta)
+def multtheta(X,theta):
+    return np.dot(X,theta)
 # calculating the sigmoid of the product
-def calcsigmoid(x,theta):
-    return sigmoid(multtheta(x,theta))
+def calcsigmoid(X,theta):
+    return sigmoid(multtheta(X,theta))
 #Cost function and gradient
-def computeCost(x,y,theta):
+def computeCost(X,y,theta):
     totalcost = -(1 / m) * np.sum(
-        y * np.log(calcsigmoid(x,theta)) + (1 - y) * np.log(
-            1 - calcsigmoid( x,theta)))
+        y * np.log(calcsigmoid(X,theta)) + (1 - y) * np.log(
+            1 - calcsigmoid( X,theta)))
     return totalcost
+# setting alpha
+alpha=0.01
+def calcgradient(theta,X,y,alpha,step):
+    for i in range(step):
+        t1=calcsigmoid(X,theta)
+        t1=t1-y
+        t2=np.dot(X.T,t1)
+    return theta-(alpha*t2)/m
+theta=calcgradient(theta,X,y,alpha,1500)
+print(theta)
+J = computeCost(X, y, theta)
+print(J)  # 0.6931471805599454
 
-def calcgradient(x,y,theta):
-    
+#  Learning parameters using fminunc (alternative in python)
+
+import scipy.optimize as op
+theta = op.fmin_cg(computeCost ,
+                 args=(X, y),x0=theta)
+
+                
+                   
+               
+# plotting the decision boundary
+predict1 = [45, 85] * theta;
