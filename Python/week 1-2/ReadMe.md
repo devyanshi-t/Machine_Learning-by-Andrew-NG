@@ -4,7 +4,7 @@
 ##  Warm Up excersise 
 Return a 5X5 indentity matrix<br/>
 ##  Linear Regression with one variable<br/>
-1. Plot the data<br/>
+1. Plot the data points<br/>
 2. Add intercept<br/>
 3. Calculate cost function at theta=0 <br/>
 4. Use gradient descent<br/>
